@@ -16,7 +16,7 @@ provider "kubernetes" {
     api_version = "client.authentication.k8s.io/v1alpha1"
     command     = "aws"
     # This requires the awscli to be installed locally where Terraform is executed
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_id]
+    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_id]
   }
 }
 
@@ -36,9 +36,9 @@ locals {
 ################################################################################
 
 module "eks" {
- source  = "terraform-aws-modules/eks/aws"
-    version = "18.26.3"
-  create_aws_auth_configmap       = false
+  source                    = "terraform-aws-modules/eks/aws"
+  version                   = "18.26.3"
+  create_aws_auth_configmap = false
   # manage_aws_auth_configmap = true
   cluster_name                    = local.name
   cluster_endpoint_private_access = true
@@ -49,13 +49,13 @@ module "eks" {
       resolve_conflicts = "OVERWRITE"
     }
     kube-proxy = {}
-    vpc-cni    = {
+    vpc-cni = {
       resolve_conflicts = "OVERWRITE"
     }
   }
 
   # Encryption key
-  create_kms_key            = true
+  create_kms_key = true
   cluster_encryption_config = [
     {
       resources = ["secrets"]
@@ -82,7 +82,7 @@ module "eks" {
 
   # Extend node-to-node security group rules
   node_security_group_ntp_ipv4_cidr_block = ["169.254.169.123/32"]
-  node_security_group_additional_rules    = {
+  node_security_group_additional_rules = {
     ingress_self_all = {
       description = "Node to node all ports/protocols"
       protocol    = "-1"
@@ -104,7 +104,7 @@ module "eks" {
 
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
-    vpc_security_group_ids       = [aws_security_group.additional.id]
+    vpc_security_group_ids = [aws_security_group.additional.id]
     iam_role_additional_policies = [
       "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
     ]
@@ -112,7 +112,7 @@ module "eks" {
 
   self_managed_node_groups = {
     spot = {
-      instance_type           = "m5.large"
+      instance_type = "m5.large"
       instance_market_options = {
         market_type = "spot"
       }
@@ -143,7 +143,7 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    blue  = {}
+    blue = {}
     green = {
       min_size     = 1
       max_size     = 10
@@ -151,7 +151,7 @@ module "eks" {
 
       instance_types = ["t3.large"]
       capacity_type  = "SPOT"
-      labels         = {
+      labels = {
         Environment = "test"
         GithubRepo  = "terraform-aws-eks"
         GithubOrg   = "terraform-aws-modules"
@@ -178,11 +178,11 @@ module "eks" {
   # Fargate Profile(s)
   fargate_profiles = {
     default = {
-      name      = "default"
+      name = "default"
       selectors = [
         {
           namespace = "kube-system"
-          labels    = {
+          labels = {
             k8s-app = "kube-dns"
           }
         },
@@ -248,8 +248,8 @@ module "eks" {
 
 module "eks_managed_node_group" {
   source = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
-# source  = "terraform-aws-modules/eks/aws"
-    version = "18.26.3"
+  # source  = "terraform-aws-modules/eks/aws"
+  version         = "18.26.3"
   name            = "separate-eks-mng"
   cluster_name    = module.eks.cluster_id
   cluster_version = module.eks.cluster_version
@@ -257,7 +257,7 @@ module "eks_managed_node_group" {
   vpc_id                            = module.vpc.vpc_id
   subnet_ids                        = module.vpc.private_subnets
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
-  vpc_security_group_ids            = [
+  vpc_security_group_ids = [
     module.eks.cluster_security_group_id,
   ]
 
@@ -265,8 +265,8 @@ module "eks_managed_node_group" {
 }
 
 module "self_managed_node_group" {
-  source = "terraform-aws-modules/eks/aws//modules/self-managed-node-group"
-    version = "18.26.3"
+  source  = "terraform-aws-modules/eks/aws//modules/self-managed-node-group"
+  version = "18.26.3"
 
   name                = "separate-self-mng"
   cluster_name        = module.eks.cluster_id
@@ -276,8 +276,8 @@ module "self_managed_node_group" {
 
   instance_type = "m5.large"
 
-  vpc_id                 = module.vpc.vpc_id
-  subnet_ids             = module.vpc.private_subnets
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
   vpc_security_group_ids = [
     module.eks.cluster_primary_security_group_id,
     module.eks.cluster_security_group_id,
@@ -289,14 +289,14 @@ module "self_managed_node_group" {
 }
 
 module "fargate_profile" {
-  source = "terraform-aws-modules/eks/aws//modules/fargate-profile"
-    version = "18.26.3"
+  source  = "terraform-aws-modules/eks/aws//modules/fargate-profile"
+  version = "18.26.3"
 
   name         = "separate-fargate-profile"
   cluster_name = module.eks.cluster_id
 
   subnet_ids = module.vpc.private_subnets
-  selectors  = [
+  selectors = [
     {
       namespace = "kube-system"
     }
@@ -343,9 +343,9 @@ resource "aws_security_group" "additional" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
     cidr_blocks = [
       "10.0.0.0/8",
       "172.16.0.0/12",
