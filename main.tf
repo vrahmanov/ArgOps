@@ -266,6 +266,7 @@ module "eks_managed_node_group" {
 
 module "self_managed_node_group" {
   source = "terraform-aws-modules/eks/aws//modules/self-managed-node-group"
+    version = "18.26.3"
 
   name                = "separate-self-mng"
   cluster_name        = module.eks.cluster_id
@@ -288,7 +289,8 @@ module "self_managed_node_group" {
 }
 
 module "fargate_profile" {
-  source = "../../modules/fargate-profile"
+  source = "terraform-aws-modules/eks/aws//modules/fargate-profile"
+    version = "18.26.3"
 
   name         = "separate-fargate-profile"
   cluster_name = module.eks.cluster_id
@@ -302,38 +304,6 @@ module "fargate_profile" {
 
   tags = merge(local.tags, { Separate = "fargate-profile" })
 }
-
-################################################################################
-# Disabled creation
-################################################################################
-
-module "disabled_eks" {
-  source = "../.."
-
-  create = false
-}
-
-module "disabled_fargate_profile" {
-  source = "../../modules/fargate-profile"
-
-  create = false
-}
-
-module "disabled_eks_managed_node_group" {
-  source = "../../modules/eks-managed-node-group"
-
-  create = false
-}
-
-module "disabled_self_managed_node_group" {
-  source = "../../modules/self-managed-node-group"
-
-  create = false
-}
-
-################################################################################
-# Supporting resources
-################################################################################
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
