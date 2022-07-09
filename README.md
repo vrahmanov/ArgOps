@@ -1,4 +1,6 @@
 # ArgOps - WIP
+```Deployment should eventually get you here - (view via LENS- https://k8slens.dev/ )```
+![lens](./img.png)
 ## Terraform
 ````
 terraform fmt
