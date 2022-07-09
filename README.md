@@ -22,4 +22,9 @@ solution : modify base eks module SG attachment
 error: referenced argocd module , missing context and needs modification , i have reused a different source. 
 ```
 
-## 
+## Manage local certificates for development 
+```
+as the need to assume ssl all the way while in development , local development needs to use a custom selfsigned certificate 
+being served and managed by a tool like traefik|nginx|haproxy  , WHILE the certificate will be assigned to a *.local domain 
+with a /etc/hosts modification allowing all *.local to be addressed to 127.0.0.1 ( while the nginx|traefik|haproxy is loaded with the precreated cert) 
+```
