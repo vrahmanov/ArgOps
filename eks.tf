@@ -1,35 +1,5 @@
-provider "aws" {
-  region = local.region
 
-  default_tags {
-    tags = {
-      ExampleDefaultTag = "ExampleDefaultValue"
-    }
-  }
-}
 
-provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-
-  exec {
-    api_version = "client.authentication.k8s.io/v1alpha1"
-    command     = "aws"
-    # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_id]
-  }
-}
-
-locals {
-  name   = "ex-${replace(basename(path.cwd), "_", "-")}"
-  region = "us-east-2"
-
-  tags = {
-    Example    = local.name
-    GithubRepo = "terraform-aws-eks"
-    GithubOrg  = "terraform-aws-modules"
-  }
-}
 
 ################################################################################
 # EKS Module
@@ -207,7 +177,7 @@ module "eks" {
 
   aws_auth_node_iam_role_arns_non_windows = [
     module.eks_managed_node_group.iam_role_arn,
-    module.self_managed_node_group.iam_role_arn,
+#    module.self_managed_node_group.iam_role_arn,
   ]
   aws_auth_fargate_profile_pod_execution_role_arns = [
     module.fargate_profile.fargate_profile_pod_execution_role_arn

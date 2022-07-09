@@ -1,0 +1,3 @@
+[submodule "cloud-platform-terraform-ingress-controller"]
+	path = cloud-platform-terraform-ingress-controller
+	url = https://github.com/ministryofjustice/cloud-platform-terraform-ingress-controller.git
