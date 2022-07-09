@@ -1,13 +1,13 @@
-# ArgOps
+# ArgOps - WIP
 ## Terraform
 ````
-0 terraform fmt
-1 terraform init 
-2 terraform plan -var-file=fixtures.us-east-2.tfvars
-3 terraform apply -var-file=fixtures.us-east-2.tfvars
+terraform fmt
+make deploy-argops
+make destroy-arops
 ````
 ## Best practices to further implement if needed
 ````
+use fixtures.us-east-2.tfvars for example var file 
 create s3 state bucket
 create DynamoDb lock table
 add PR fmt check + plan ( set secrets from github secrets) -> approver allowes master to be auto-approved and deployed

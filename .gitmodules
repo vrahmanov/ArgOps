@@ -1,3 +1,6 @@
 [submodule "cloud-platform-terraform-ingress-controller"]
 	path = cloud-platform-terraform-ingress-controller
 	url = https://github.com/ministryofjustice/cloud-platform-terraform-ingress-controller.git
+[submodule "argocd-tf"]
+	path = argocd-tf
+	url = https://github.com/hagzag/argocd-tf.git

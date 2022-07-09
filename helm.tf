@@ -24,6 +24,15 @@ module "nginx-controller" {
     }
   ]
 }
+
+
+
+
+
+
+
+
+
 #https://github.com/hagzag/argocd-tf
 #module "argo" {
 #  source = "https://github.com/hagzag/argocd-tf"
