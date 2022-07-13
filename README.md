@@ -1,13 +1,23 @@
 # ArgOps - WIP
 ```Deployment should eventually get you here - (view via LENS- https://k8slens.dev/ )```
 ![lens](./img.png)
-## Terraform
+
+## instruction k3d 
+```
+cd k3d_local && chmod +x ./k3d-cluster.sh
+./k3d-cluster.sh
+```
+# k3d params exmaple
+![lens](./img_1.png)
+
+
+## Terraform WIP
 ````
 terraform fmt
 make deploy-argops
 make destroy-arops
 ````
-## Best practices to further implement if needed
+## Best practices to further implement if needed WIP
 ````
 use fixtures.us-east-2.tfvars for example var file 
 create s3 state bucket
@@ -16,7 +26,7 @@ add PR fmt check + plan ( set secrets from github secrets) -> approver allowes m
 add master\main only workflow to deploy from ( no other branch is allowed to decline state confusion) 
 notification workflow (failure - git blame annotation) 
 ````
-## Issues identified
+## Issues identified WIP 
 ```
 error : Error syncing load balancer: failed to ensure load balancer: Multiple tagged security groups found for instance i-XXXXXXXXX
 solution : modify base eks module SG attachment
@@ -24,7 +34,7 @@ solution : modify base eks module SG attachment
 error: referenced argocd module , missing context and needs modification , i have reused a different source. 
 ```
 
-## Manage local certificates for development 
+## Manage local certificates for development  WIP
 ```
 as the need to assume ssl all the way while in development , local development needs to use a custom selfsigned certificate 
 being served and managed by a tool like traefik|nginx|haproxy  , WHILE the certificate will be assigned to a *.local domain 
