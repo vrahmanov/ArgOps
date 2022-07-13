@@ -16,8 +16,6 @@ INSTALL_ARGOCD=Yes
 bold=$(tput bold)
 normal=$(tput sgr0)
 yes_no="(${bold}Y${normal}es/${bold}N${normal}o)"
-
-
 # $1 text to show - $2 default value
 read_value ()
 {
@@ -257,7 +255,7 @@ kind: Ingress
 metadata:
   name: argocd-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   tls:
     - hosts:
@@ -265,16 +263,6 @@ spec:
       secretName: nginx-server-certs
   rules:
     - host: argocd.${CLUSTER_DOMAIN}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: argocd-server
-                port:
-                  number: 80
-    - host: argocd2.${CLUSTER_DOMAIN}
       http:
         paths:
           - path: /
